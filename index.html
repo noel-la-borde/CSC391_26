@@ -12,15 +12,6 @@
   <body>
     <div id="container"></div>
 
-     <script type="importmap">
-			{
-				"imports": {
-					"three": "../build/three.module.js",
-					"three/addons/": "./jsm/"
-				}
-			}
-		</script> 
-
     <script type="module">
 
 			import * as THREE from 'https://unpkg.com/three@0.160.0/build/three.module.js';
@@ -37,6 +28,18 @@
 
 			function init() {
 
+        scene = new THREE.Scene();
+
+        // Ambient light (soft overall light)
+        const ambient = new THREE.AmbientLight(0xffffff, 0.5);
+        scene.add(ambient);
+
+        // Directional light (like sun)
+        const dirLight = new THREE.DirectionalLight(0xffffff, 1);
+        dirLight.position.set(5, 10, 7);
+        scene.add(dirLight);
+
+
 				const container = document.getElementById( 'container' );
 
 				stats = new Stats();
@@ -47,6 +50,18 @@
 				camera.position.x = - 4;
 				camera.position.z = 4;
 				camera.position.y = 2;
+        camera.lookAt(0,0,0);
+
+        scene = new THREE.Scene();
+
+        // LIGHTS (REQUIRED)
+        const ambient = new THREE.AmbientLight(0xffffff, 0.6);
+        scene.add(ambient);
+
+        const dirLight = new THREE.DirectionalLight(0xffffff, 1);
+        dirLight.position.set(5,10,7);
+        scene.add(dirLight);
+
 
 				scene = new THREE.Scene();
 
