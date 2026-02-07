@@ -10,6 +10,7 @@
   </head>
   
   <body>
+    <div id="container"></div>
 
      <script type="importmap">
 			{
@@ -22,15 +23,13 @@
 
     <script type="module">
 
-			import * as THREE from 'three';
+			import * as THREE from 'https://unpkg.com/three@0.160.0/build/three.module.js';
+      import Stats from 'https://unpkg.com/three@0.160.0/examples/jsm/libs/stats.module.js';
+      import { OrbitControls } from 'https://unpkg.com/three@0.160.0/examples/jsm/controls/OrbitControls.js';
 
-			import Stats from 'three/addons/libs/stats.module.js';
-			import { GUI } from 'three/addons/libs/lil-gui.module.min.js';
-
-			import { OrbitControls } from 'three/addons/controls/OrbitControls.js';
 
 			let camera, scene, renderer, bulbLight, bulbMat, hemiLight, stats;
-			let ballMat, cubeMat, floorMat;
+			let floorMat;
 
 			let previousShadowMap = false;
 
@@ -51,7 +50,7 @@
 
 				scene = new THREE.Scene();
 
-        const floorMat = new THREE.MeshStandardMaterial( {
+        floorMat = new THREE.MeshStandardMaterial( {
 					roughness: 0.8,
 					color: 0xffffff,
 					metalness: 0.2,
@@ -89,6 +88,20 @@
 					floorMat.needsUpdate = true;
 
 				} );
+
+        renderer = new THREE.WebGLRenderer();
+				renderer.setPixelRatio( window.devicePixelRatio );
+				renderer.setSize( window.innerWidth, window.innerHeight );
+				renderer.setAnimationLoop( animate );
+				renderer.shadowMap.enabled = true;
+				renderer.toneMapping = THREE.ReinhardToneMapping;
+				container.appendChild( renderer.domElement );
+
+        const floorGeometry = new THREE.PlaneGeometry( 20, 20 );
+				const floorMesh = new THREE.Mesh( floorGeometry, floorMat );
+				floorMesh.receiveShadow = true;
+				floorMesh.rotation.x = - Math.PI / 2.0;
+				scene.add( floorMesh );
 
 			}
 
