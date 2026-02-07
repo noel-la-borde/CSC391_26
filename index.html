@@ -52,7 +52,7 @@
 				camera.position.y = 2;
         camera.lookAt(0,0,0);
 
-        scene = new THREE.Scene();
+       
 
         // LIGHTS (REQUIRED)
         const ambient = new THREE.AmbientLight(0xffffff, 0.6);
@@ -63,8 +63,7 @@
         scene.add(dirLight);
 
 
-				scene = new THREE.Scene();
-
+				
         floorMat = new THREE.MeshStandardMaterial( {
 					roughness: 0.8,
 					color: 0xffffff,
