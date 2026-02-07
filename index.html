@@ -23,7 +23,7 @@ import * as THREE from 'three';
 import { OrbitControls } from 'three/addons/controls/OrbitControls.js';
 import Stats from 'three/addons/libs/stats.module.js';
 
-let scene, camera, renderer, cube, stats;
+let scene, camera, renderer, cube,;
 
 init();
 animate();
@@ -81,7 +81,7 @@ function init(){
   // SPINNING CUBE
   cube = new THREE.Mesh(
     new THREE.BoxGeometry(1,1,1),
-    new THREE.MeshStandardMaterial({color:0x00ffff, metalness:.6, roughness:.2})
+    new THREE.MeshStandardMaterial({color: 0x99754B, metalness:.6, roughness:.2})
   );
   cube.position.y = .5;
   cube.castShadow = true;
@@ -118,7 +118,7 @@ function animate(){
   sphere.position.y = 1 + Math.sin(t*2)*0.5;
 
   
-  stats.update();
+  
   renderer.render(scene,camera);
 }
 </script>
