@@ -1,98 +1,130 @@
 <!DOCTYPE html>
-
 <html>
-  <head>
-    
-    <title>Noel La Borde's Project 1</title>
+<head>
+  <title>Noel La Borde Project</title>
+  <meta charset="utf-8">
+</head>
 
-    <meta charset="utf-8">
-    <!-- <script src="https://aframe.io/releases/1.7.1/aframe.min.js"></script> -->
-  </head>
-  
-  <body>
-    <div id="container"></div>
+<body style="margin:0; overflow:hidden;">
+<div id="container"></div>
 
-    <script type="importmap">
-    {
-      "imports": {
-        "three": "https://unpkg.com/three@0.160.0/build/three.module.js",
-        "three/addons/": "https://unpkg.com/three@0.160.0/examples/jsm/"
-      }
-    }
-    </script>
+<!-- IMPORT MAP (REQUIRED) -->
+<script type="importmap">
+{
+  "imports": {
+    "three": "https://unpkg.com/three@0.160.0/build/three.module.js",
+    "three/addons/": "https://unpkg.com/three@0.160.0/examples/jsm/"
+  }
+}
+</script>
 
-    <script type="module">
+<script type="module">
+import * as THREE from 'three';
+import { OrbitControls } from 'three/addons/controls/OrbitControls.js';
+import Stats from 'three/addons/libs/stats.module.js';
 
-			import * as THREE from 'three';
-      import Stats from 'three/addons/libs/stats.module.js';
-      import { OrbitControls } from 'three/addons/controls/OrbitControls.js';
+let scene, camera, renderer, cube, sphere, controls, stats;
 
+init();
+animate();
 
-			let camera, scene, renderer, bulbLight, bulbMat, hemiLight, stats;
-			let floorMat;
+function init(){
 
-			let previousShadowMap = false;
+  const container = document.getElementById("container");
 
-      init();
+  // SCENE
+  scene = new THREE.Scene();
+  scene.background = new THREE.Color(0x050505);
 
-			function init() {
+  // CAMERA
+  camera = new THREE.PerspectiveCamera(60, window.innerWidth/window.innerHeight, 0.1, 100);
+  camera.position.set(5,4,8);
 
+  // RENDERER
+  renderer = new THREE.WebGLRenderer({antialias:true});
+  renderer.setSize(window.innerWidth, window.innerHeight);
+  renderer.shadowMap.enabled = true;
+  container.appendChild(renderer.domElement);
 
-        const container = document.getElementById('container');
+  // CONTROLS (mouse orbit)
+  controls = new OrbitControls(camera, renderer.domElement);
+  controls.enableDamping = true;
 
-        scene = new THREE.Scene();
+  // STATS (fps counter)
+  stats = new Stats();
+  container.appendChild(stats.dom);
 
-        // LIGHTS
-        const ambient = new THREE.AmbientLight(0xffffff, 0.6);
-        scene.add(ambient);
+  // LIGHTING
+  const ambient = new THREE.AmbientLight(0xffffff, .3);
+  scene.add(ambient);
 
-        const dirLight = new THREE.DirectionalLight(0xffffff, 1);
-        dirLight.position.set(5,10,7);
-        scene.add(dirLight);
+  const light = new THREE.PointLight(0xff8800, 50, 100);
+  light.position.set(2,5,2);
+  light.castShadow = true;
+  scene.add(light);
 
-        // CAMERA
-        camera = new THREE.PerspectiveCamera(50, window.innerWidth/window.innerHeight, 0.1, 100);
-        camera.position.set(0,5,8);
-        camera.lookAt(0,0,0);
+  // glowing bulb
+  const bulbGeo = new THREE.SphereGeometry(.2, 32, 32);
+  const bulbMat = new THREE.MeshBasicMaterial({color:0xffaa00});
+  const bulb = new THREE.Mesh(bulbGeo, bulbMat);
+  light.add(bulb);
 
-        // STATS
-        stats = new Stats();
-        container.appendChild(stats.dom);
+  // FLOOR
+  const floor = new THREE.Mesh(
+    new THREE.PlaneGeometry(30,30),
+    new THREE.MeshStandardMaterial({color:0x222222, roughness:.2, metalness:.8})
+  );
+  floor.rotation.x = -Math.PI/2;
+  floor.receiveShadow = true;
+  scene.add(floor);
 
-        // FLOOR MATERIAL
-        floorMat = new THREE.MeshStandardMaterial({
-          roughness: 0.8,
-          color: 0x00ffcc,
-          metalness: 0.2
-        });
+  // SPINNING CUBE
+  cube = new THREE.Mesh(
+    new THREE.BoxGeometry(1,1,1),
+    new THREE.MeshStandardMaterial({color:0x00ffff, metalness:.6, roughness:.2})
+  );
+  cube.position.y = .5;
+  cube.castShadow = true;
+  scene.add(cube);
 
-        // FLOOR
-        const floorGeometry = new THREE.PlaneGeometry(20,20);
-        const floorMesh = new THREE.Mesh(floorGeometry, floorMat);
-        floorMesh.rotation.x = -Math.PI/2;
-        scene.add(floorMesh);
+  // ORBITING SPHERE
+  sphere = new THREE.Mesh(
+    new THREE.SphereGeometry(.4,32,32),
+    new THREE.MeshStandardMaterial({color:0xff0055})
+  );
+  sphere.castShadow = true;
+  scene.add(sphere);
 
-        // RENDERER
-        renderer = new THREE.WebGLRenderer({antialias:true});
-        renderer.setSize(window.innerWidth, window.innerHeight);
-        container.appendChild(renderer.domElement);
+  window.addEventListener("resize", onWindowResize);
+}
 
-        const box = new THREE.Mesh(
-        new THREE.BoxGeometry(1,1,1),
-        new THREE.MeshStandardMaterial({color: 0xff0000})
-        );
-        box.position.y = 0.5;
-        scene.add(box);
+function onWindowResize(){
+  camera.aspect = window.innerWidth/window.innerHeight;
+  camera.updateProjectionMatrix();
+  renderer.setSize(window.innerWidth, window.innerHeight);
+}
 
+function animate(){
+  requestAnimationFrame(animate);
 
-			}
+  // spin cube
+  cube.rotation.x += .01;
+  cube.rotation.y += .01;
 
-		</script>
+  // orbit sphere
+  const t = Date.now() * 0.001;
+  sphere.position.x = Math.cos(t) * 3;
+  sphere.position.z = Math.sin(t) * 3;
+  sphere.position.y = 1 + Math.sin(t*2)*0.5;
 
-	</body>
+  controls.update();
+  stats.update();
+  renderer.render(scene,camera);
+}
+</script>
+</body>
 </html>
 
-  
 
     
   
