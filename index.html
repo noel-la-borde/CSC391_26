@@ -6,8 +6,9 @@
     <title>Noel La Borde's Project 1</title>
 
     <meta charset="utf-8">
-    <script src="https://aframe.io/releases/1.7.1/aframe.min.js"></script>
+    <!-- <script src="https://aframe.io/releases/1.7.1/aframe.min.js"></script> -->
   </head>
+  
   <body>
 
      <script type="importmap">
@@ -50,7 +51,7 @@
 
 				scene = new THREE.Scene();
 
-        floorMat = new THREE.MeshStandardMaterial( {
+        const floorMat = new THREE.MeshStandardMaterial( {
 					roughness: 0.8,
 					color: 0xffffff,
 					metalness: 0.2,
@@ -89,11 +90,36 @@
 
 				} );
 
+			}
+
+			animate();
+
+			function animate() {
+
+				requestAnimationFrame( animate );
+				render();
+				stats.update();
+
+			}
+
+			function render() {
+
+				renderer.render( scene, camera );
+
+			}
+
+		</script>
+
+	</body>
+</html>
+
+  
+
     
   
     
       
      
     
-  </body>
-</html> 
+
+
