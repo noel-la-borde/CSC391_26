@@ -12,11 +12,20 @@
   <body>
     <div id="container"></div>
 
+    <script type="importmap">
+    {
+      "imports": {
+        "three": "https://unpkg.com/three@0.160.0/build/three.module.js",
+        "three/addons/": "https://unpkg.com/three@0.160.0/examples/jsm/"
+      }
+    }
+    </script>
+
     <script type="module">
 
-			import * as THREE from 'https://unpkg.com/three@0.160.0/build/three.module.js';
-      import Stats from 'https://unpkg.com/three@0.160.0/examples/jsm/libs/stats.module.js';
-      import { OrbitControls } from 'https://unpkg.com/three@0.160.0/examples/jsm/controls/OrbitControls.js';
+			import * as THREE from 'three';
+      import Stats from 'three/addons/libs/stats.module.js';
+      import { OrbitControls } from 'three/addons/controls/OrbitControls.js';
 
 
 			let camera, scene, renderer, bulbLight, bulbMat, hemiLight, stats;
