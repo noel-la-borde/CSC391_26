@@ -1,33 +1,99 @@
 <!DOCTYPE html>
 
-<!-- <h1> "Hi, this will be my website" </h1> -->
-
 <html>
   <head>
     
     <title>Noel La Borde's Project 1</title>
-    
+
+    <meta charset="utf-8">
     <script src="https://aframe.io/releases/1.7.1/aframe.min.js"></script>
   </head>
   <body>
+
+     <script type="importmap">
+			{
+				"imports": {
+					"three": "../build/three.module.js",
+					"three/addons/": "./jsm/"
+				}
+			}
+		</script> 
+
+    <script type="module">
+
+			import * as THREE from 'three';
+
+			import Stats from 'three/addons/libs/stats.module.js';
+			import { GUI } from 'three/addons/libs/lil-gui.module.min.js';
+
+			import { OrbitControls } from 'three/addons/controls/OrbitControls.js';
+
+			let camera, scene, renderer, bulbLight, bulbMat, hemiLight, stats;
+			let ballMat, cubeMat, floorMat;
+
+			let previousShadowMap = false;
+
+      init();
+
+			function init() {
+
+				const container = document.getElementById( 'container' );
+
+				stats = new Stats();
+				container.appendChild( stats.dom );
+
+
+				camera = new THREE.PerspectiveCamera( 50, window.innerWidth / window.innerHeight, 0.1, 100 );
+				camera.position.x = - 4;
+				camera.position.z = 4;
+				camera.position.y = 2;
+
+				scene = new THREE.Scene();
+
+        floorMat = new THREE.MeshStandardMaterial( {
+					roughness: 0.8,
+					color: 0xffffff,
+					metalness: 0.2,
+					bumpScale: 1
+				} );
+				const textureLoader = new THREE.TextureLoader();
+				textureLoader.load( 'textures/hardwood2_diffuse.jpg', function ( map ) {
+
+					map.wrapS = THREE.RepeatWrapping;
+					map.wrapT = THREE.RepeatWrapping;
+					map.anisotropy = 4;
+					map.repeat.set( 10, 24 );
+					map.colorSpace = THREE.SRGBColorSpace;
+					floorMat.map = map;
+					floorMat.needsUpdate = true;
+
+				} );
+				textureLoader.load( 'textures/hardwood2_bump.jpg', function ( map ) {
+
+					map.wrapS = THREE.RepeatWrapping;
+					map.wrapT = THREE.RepeatWrapping;
+					map.anisotropy = 4;
+					map.repeat.set( 10, 24 );
+					floorMat.bumpMap = map;
+					floorMat.needsUpdate = true;
+
+				} );
+				textureLoader.load( 'textures/hardwood2_roughness.jpg', function ( map ) {
+
+					map.wrapS = THREE.RepeatWrapping;
+					map.wrapT = THREE.RepeatWrapping;
+					map.anisotropy = 4;
+					map.repeat.set( 10, 24 );
+					floorMat.roughnessMap = map;
+					floorMat.needsUpdate = true;
+
+				} );
+
     
   
-    <a-scene>
-     
-      <a-plane position="0 0 -4" rotation="-90 0 0" width="8" height="8" color="#FFFFFF"></a-plane>
-      <a-sky color="#030202"></a-sky>
-     <!-- <a-octahedron position= "0 1.75 -3" rotation="1 0 -1" color="#FFFFFF" radius="0.5" animation="property: rotation; to: 0 360 0; loop: true; dur: 6000"> </a-octahedron>
+    
       
-      <a-entity rotation="0 1.25 0" animation="property: rotation; to: 0 360 0; loop: true; dur: 10000">
-      <a-sphere position="0 1.25 -5" color="#F2620F"></a-sphere>
-      </a-entity>
-
-      <a-box position="-1 0.5 -3" rotation="0 45 0" color="#4CC3D9"></a-box>
-      <a-ring position="0 1.25 -5" rotation=" 0 90 0" radius-inner="0.95" radius-outer="1.25" color="#EF2D5E"></a-ring>
-      <a-cylinder position="1 0.75 -3" radius="0.5" height="1.5" color="#FFC65D"></a-cylinder>
-      <a-plane position="0 0 -4" rotation="-90 0 0" width="8" height="8" color="#FFFFFF"></a-plane>
-      <a-sky color="#030202"></a-sky>
-    -->
-    </a-scene>
+     
+    
   </body>
 </html> 
