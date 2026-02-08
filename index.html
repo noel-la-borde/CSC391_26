@@ -60,11 +60,6 @@ function init(){
   light.castShadow = true;
   scene.add(light);
 
-  // glowing bulb
-  const bulbGeo = new THREE.SphereGeometry(.2, 32, 32);
-  const bulbMat = new THREE.MeshBasicMaterial({color:0xffaa00});
-  const bulb = new THREE.Mesh(bulbGeo, bulbMat);
-  light.add(bulb);
 
   // FLOOR
   const textureLoader = new THREE.TextureLoader();
