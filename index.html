@@ -103,44 +103,9 @@ function init(){
   scene.add(floor);
 
 
-  // SPINNING CUBE
-  cube = new THREE.Mesh(
-    new THREE.BoxGeometry(1,1,1),
-    new THREE.MeshStandardMaterial({color: 0x99754B, metalness:.6, roughness:.2})
-  );
-  cube.position.y = .5;
-  cube.castShadow = true;
-  scene.add(cube);
-
-  // ORBITING SPHERE
-  sphere = new THREE.Mesh(
-    new THREE.SphereGeometry(.4,32,32),
-    new THREE.MeshStandardMaterial({color:0xff0055})
-  );
-  sphere.castShadow = true;
-  scene.add(sphere);
-
-  window.addEventListener("resize", onWindowResize);
-}
-
-function onWindowResize(){
-  camera.aspect = window.innerWidth/window.innerHeight;
-  camera.updateProjectionMatrix();
-  renderer.setSize(window.innerWidth, window.innerHeight);
-}
 
 function animate(){
   requestAnimationFrame(animate);
-
-  // spin cube
-  cube.rotation.x += .01;
-  cube.rotation.y += .01;
-
-  // orbit sphere
-  const t = Date.now() * 0.001;
-  sphere.position.x = Math.cos(t) * 3;
-  sphere.position.z = Math.sin(t) * 3;
-  sphere.position.y = 1 + Math.sin(t*2)*0.5;
 
   
   controls.update();
