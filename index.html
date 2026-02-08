@@ -69,9 +69,9 @@ function init(){
   // FLOOR
   const textureLoader = new THREE.TextureLoader();
 
-  const woodColor = textureLoader.load('textures/hardwood2_diffuse.jpg');
-  const woodBump = textureLoader.load('textures/hardwood2_bump.jpg');
-  const woodRough = textureLoader.load('textures/hardwood2_roughness.jpg');
+  const woodColor = textureLoader.load('/Users/noelito/CSC391_26/Textures/hardwood2_diffuse.jpg');
+  const woodBump = textureLoader.load('/Users/noelito/CSC391_26/Textures/hardwood2_bump.jpg');
+  const woodRough = textureLoader.load('/Users/noelito/CSC391_26/Textures/hardwood2_roughness.jpg');
 
   // repeat textures
   woodColor.wrapS = woodColor.wrapT = THREE.RepeatWrapping;
@@ -102,7 +102,7 @@ function init(){
   floor.receiveShadow = true;
   scene.add(floor);
 
-  
+
   // SPINNING CUBE
   cube = new THREE.Mesh(
     new THREE.BoxGeometry(1,1,1),
