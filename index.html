@@ -23,7 +23,7 @@ import * as THREE from 'three';
 import { OrbitControls } from 'three/addons/controls/OrbitControls.js';
 import Stats from 'three/addons/libs/stats.module.js';
 
-let scene, camera, sphere, renderer, controls, cube;
+let scene, camera, controls;
 
 init();
 animate();
@@ -39,12 +39,6 @@ function init(){
   // CAMERA
   camera = new THREE.PerspectiveCamera(60, window.innerWidth/window.innerHeight, 0.1, 100);
   camera.position.set(5,4,8);
-
-  // RENDERER
-  renderer = new THREE.WebGLRenderer({antialias:true});
-  renderer.setSize(window.innerWidth, window.innerHeight);
-  renderer.shadowMap.enabled = true;
-  container.appendChild(renderer.domElement);
 
   // CONTROLS (mouse orbit)
   controls = new OrbitControls(camera, renderer.domElement);
@@ -110,7 +104,6 @@ function animate(){
   requestAnimationFrame(animate);
 
   controls.update();
-  renderer.render(scene,camera);
 }
 </script>
 </body>
