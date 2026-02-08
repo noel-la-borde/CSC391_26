@@ -23,7 +23,7 @@ import * as THREE from 'three';
 import { OrbitControls } from 'three/addons/controls/OrbitControls.js';
 import Stats from 'three/addons/libs/stats.module.js';
 
-let scene, camera, controls;
+let scene, camera, renderer, controls;
 
 init();
 animate();
@@ -40,8 +40,14 @@ function init(){
   camera = new THREE.PerspectiveCamera(60, window.innerWidth/window.innerHeight, 0.1, 100);
   camera.position.set(5,4,8);
 
+  // RENDERER
+  renderer = new THREE.WebGLRenderer({antialias:true});
+  renderer.setSize(window.innerWidth, window.innerHeight);
+  renderer.shadowMap.enabled = true;
+  container.appendChild(renderer.domElement);
+
   // CONTROLS (mouse orbit)
-  controls = new OrbitControls(camera);
+  controls = new OrbitControls(camera, renderer.domElement);
   controls.enableDamping = true;
 
   
@@ -104,6 +110,7 @@ function animate(){
   requestAnimationFrame(animate);
 
   controls.update();
+  renderer.render(scene,camera);
 }
 </script>
 </body>
