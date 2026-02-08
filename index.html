@@ -23,7 +23,7 @@ import * as THREE from 'three';
 import { OrbitControls } from 'three/addons/controls/OrbitControls.js';
 import Stats from 'three/addons/libs/stats.module.js';
 
-let scene, camera, renderer, cube;
+let scene, camera, sphere, renderer, controls, cube;
 
 init();
 animate();
@@ -50,10 +50,7 @@ function init(){
   controls = new OrbitControls(camera, renderer.domElement);
   controls.enableDamping = true;
 
-  // STATS (fps counter)
-  stats = new Stats();
-  container.appendChild(stats.dom);
-
+  
   // LIGHTING
   const ambient = new THREE.AmbientLight(0xffffff, .3);
   scene.add(ambient);
