@@ -102,12 +102,18 @@ function init(){
   floor.receiveShadow = true;
   scene.add(floor);
 
+  window.addEventListener("resize", onWindowResize);
+}
 
+function onWindowResize(){
+  camera.aspect = window.innerWidth/window.innerHeight;
+  camera.updateProjectionMatrix();
+  renderer.setSize(window.innerWidth, window.innerHeight);
+}
 
 function animate(){
   requestAnimationFrame(animate);
 
-  
   controls.update();
   renderer.render(scene,camera);
 }
