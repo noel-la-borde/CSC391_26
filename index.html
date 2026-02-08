@@ -87,6 +87,61 @@ function init() {
   floor.receiveShadow = true;
   scene.add(floor);
 
+   // --- COURT LINES (simple white lines) ---
+  const lineMaterial = new THREE.LineBasicMaterial({ color: 0xffffff });
+  const lines = [];
+
+  // Sidelines and baseline (half court)
+  const outlinePoints = [
+    new THREE.Vector3(-5.5, 0.01, -7),
+    new THREE.Vector3(5.5, 0.01, -7),
+    new THREE.Vector3(5.5, 0.01, 7),
+    new THREE.Vector3(-5.5, 0.01, 7),
+    new THREE.Vector3(-5.5, 0.01, -7)
+  ];
+  const outlineGeom = new THREE.BufferGeometry().setFromPoints(outlinePoints);
+  scene.add(new THREE.Line(outlineGeom, lineMaterial));
+
+  // Free throw semicircle
+  const arcPoints = [];
+  const radius = 1.8;
+  const center = new THREE.Vector3(0, 0.02, -5.2);
+  for(let i=-Math.PI/2; i<=Math.PI/2; i+=0.05){
+    arcPoints.push(new THREE.Vector3(center.x + Math.cos(i)*radius, center.y, center.z + Math.sin(i)*radius));
+  }
+  const arcGeom = new THREE.BufferGeometry().setFromPoints(arcPoints);
+  scene.add(new THREE.Line(arcGeom, lineMaterial));
+
+  const arcPoints2 = [];
+  const radius2 = 1.8;
+  const center2 = new THREE.Vector3(-5.2, 0.02, 0);
+  for(let i=-Math.PI/2; i<=Math.PI/2; i+=0.05){
+    arcPoints2.push(new THREE.Vector3(center2.x + Math.cos(i)*radius2, center2.y, center2.z + Math.sin(i)*radius2));
+  }
+  const arcGeom2 = new THREE.BufferGeometry().setFromPoints(arcPoints2);
+  scene.add(new THREE.Line(arcGeom2, lineMaterial));
+
+  // --- BASKET / HOOP ---
+  const backboard = new THREE.Mesh(
+    new THREE.BoxGeometry(1.8, 1.05, 0.05),
+    new THREE.MeshStandardMaterial({ color: 0xffffff })
+  );
+  backboard.position.set(0, 3, -6.9);
+  backboard.castShadow = true;
+  scene.add(backboard);
+
+  const rim = new THREE.Mesh(
+    new THREE.TorusGeometry(0.45, 0.03, 16, 100),
+    new THREE.MeshStandardMaterial({ color: 0xff4500 })
+  );
+  rim.rotation.x = Math.PI/2;
+  rim.position.set(0, 2.9, -6.45);
+  rim.castShadow = true;
+  scene.add(rim);
+
+
+
+
   // Handle window resize
   window.addEventListener('resize', onWindowResize);
 }
