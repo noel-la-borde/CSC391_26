@@ -113,7 +113,7 @@ function init() {
   scene.add(new THREE.Line(arcGeom, lineMaterial));
 
   const arcPoints2 = [];
-  const radius2 = 1.8;
+  const radius2 = 2.5;
   const center2 = new THREE.Vector3(-5.2, 0.02, 0);
   for(let i=-Math.PI/2; i<=Math.PI/2; i+=0.05){
     arcPoints2.push(new THREE.Vector3(center2.x + Math.cos(i)*radius2, center2.y, center2.z + Math.sin(i)*radius2));
