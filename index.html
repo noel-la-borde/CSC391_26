@@ -46,7 +46,6 @@ function init() {
   renderer.setSize(window.innerWidth, window.innerHeight);
   renderer.shadowMap.enabled = true;
   renderer.outputColorSpace = THREE.SRGBColorSpace;
-  
   container.appendChild(renderer.domElement);
 
   // CONTROLS
@@ -84,7 +83,7 @@ function init() {
     metalness: 0.2
   });
 
-  const floor = new THREE.Mesh(new THREE.PlaneGeometry(30, 30), floorMat);
+  const floor = new THREE.Mesh(new THREE.PlaneGeometry(25, 25), floorMat);
   floor.rotation.x = -Math.PI / 2;
   floor.receiveShadow = true;
   scene.add(floor);
