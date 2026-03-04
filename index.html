@@ -129,6 +129,18 @@ function init() {
   const outlineGeom = new THREE.BufferGeometry().setFromPoints(outlinePoints);
   scene.add(new THREE.Line(outlineGeom, lineMaterial));
 
+  // My basket board shooter square box  
+  const boxPoints = [
+    new THREE.Vector3(-0.3, 3.1, -6.77),
+    new THREE.Vector3(0.3, 3.1, -6.77),
+    new THREE.Vector3(0.3, 2.8, -6.77),
+    new THREE.Vector3(-0.3, 2.8, -6.77),
+    new THREE.Vector3(-0.3, 3.1, -6.77)
+  ];
+  const boxGeom = new THREE.BufferGeometry().setFromPoints(boxPoints);
+  const boxLine = new THREE.Line(boxGeom, lineMaterial);
+  scene.add(boxLine);
+
   // My free throw semicircle
   const arcPoints = [];
   const radius = 3.4;
