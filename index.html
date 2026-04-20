@@ -230,10 +230,12 @@ function animate() {
   requestAnimationFrame(animate);
  
   const time = clock.getElapsedTime();
+  const phase = time * 3;  // ← this line was missing
+
 
   // Vertical bounce loop
-  ball.position.y = 0.3 + Math.abs(Math.sin(time * 3)) * 1.7;
-  
+  ball.position.y = 0.3 + Math.abs(Math.sin(phase)) * 1.7; 
+
 
   // Basketball rotation while bouncing
   ball.rotation.x += 0.1;
