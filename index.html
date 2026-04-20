@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/tone/14.8.49/Tone.js"></script>
   <title>Noel La Borde Project</title>
   <meta charset="utf-8">
   <style>
@@ -35,6 +36,33 @@ let velocity = 0;
 const gravity = -0.01;
 const bounce = 0.85;
 const floorLevel = 0.3; 
+
+// Basketball sound
+let audioStarted = false;
+let lastBouncePhase = 0;
+
+// Low punchy bounce hit
+const bounceSynth = new Tone.MembraneSynth({
+  pitchDecay: 0.05,
+  octaves: 4,
+  envelope: { attack: 0.001, decay: 0.18, sustain: 0, release: 0.1 }
+}).toDestination();
+bounceSynth.volume.value = -6;
+
+// Brief high chirp on the way up
+const squeakSynth = new Tone.Synth({
+  oscillator: { type: "sine" },
+  envelope: { attack: 0.005, decay: 0.08, sustain: 0, release: 0.05 }
+}).toDestination();
+squeakSynth.volume.value = -22;
+
+// Start audio on first user interaction
+document.addEventListener("click", async () => {
+  if (!audioStarted) {
+    await Tone.start();
+    audioStarted = true;
+  }
+}, { once: true });
 
 init();
 animate();
@@ -205,10 +233,29 @@ function animate() {
 
   // Vertical bounce loop
   ball.position.y = 0.3 + Math.abs(Math.sin(time * 3)) * 1.7;
+  
 
   // Basketball rotation while bouncing
   ball.rotation.x += 0.1;
   ball.rotation.z += 0.05;
+
+  // Detect moment (ball hits floor)
+  const sinVal = Math.sin(phase);
+  const prevSinVal = Math.sin(lastBouncePhase); 
+
+  if (audioStarted) {
+    // Bounce thud
+    if (prevSinVal < 0 && sinVal >= 0) {
+      bounceSynth.triggerAttackRelease("C1", "8n");
+    }
+    // Air squeak
+    const peakThreshold = 0.94;
+    if (prevSinVal < peakThreshold && sinVal >= peakThreshold && Math.cos(phase) > 0) {
+      squeakSynth.triggerAttackRelease("E5", "32n");
+    }
+  }
+
+  lastBouncePhase = phase;
 
   controls.update();
   renderer.render(scene, camera);
