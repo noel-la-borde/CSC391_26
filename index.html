@@ -250,6 +250,10 @@ function animate() {
     if (prevSinVal < 0 && sinVal >= 0) {
       bounceSynth.triggerAttackRelease("C1", "8n");
     }
+    // Second thud 
+    if (prevSinVal > 0 && sinVal <= 0) {
+      bounceSynth.triggerAttackRelease("C1", "8n");
+    }
     // Air squeak
     const peakThreshold = 0.94;
     if (prevSinVal < peakThreshold && sinVal >= peakThreshold && Math.cos(phase) > 0) {
