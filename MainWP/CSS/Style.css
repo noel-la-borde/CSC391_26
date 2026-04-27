@@ -1,0 +1,44 @@
+body{	
+background-color: #CBCFCE;
+font-family: Times new Roman;
+font-size: x-large;
+color: black;
+text-shadow: 4px 3px 3px gray;
+
+}
+
+h1{ 
+ text-align: center;
+ color: black;
+ font-family: cursive;
+ text-shadow: 3px 2px 2px green;
+  }
+
+ h2{ 
+ text-align: center;
+ color: black;
+ font-family: cursive;
+ text-shadow: 3px 2px 2px green;
+   }
+
+ h4{
+ text-align: left;
+ color: darkred;
+ }
+
+ 
+  }
+  #container{
+  	display: flex;
+  	text-align: center;
+  }
+
+hr{ 
+  color:green;
+  height: 5px; 
+  width: 800px;
+  background-color: rosybrown;
+  align: left to right;
+
+  
+}
