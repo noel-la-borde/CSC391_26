@@ -1,1 +1,1 @@
-All three projects are available at the GitHub page URL. 
+All three projects are available at the GitHub webpage URL. 
